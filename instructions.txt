@@ -1,0 +1,77 @@
+NTIRE 2026 Image Super-Resolution (×4) Challenge
+Team: AH-SNU
+Team ID: 33
+Model: HAT_FFL (Focal Frequency Enhanced HAT)
+
+========================================
+1. Clone Repository
+========================================
+
+git clone https://github.com/genius98323/AH-SNU-NTIRE2026.git
+cd AH-SNU-NTIRE2026
+
+========================================
+2. Install Dependencies
+========================================
+
+pip install -r requirements.txt
+
+# Install HAT dependency
+git clone https://github.com/XPixelGroup/HAT.git
+pip install -e HAT
+
+# Additional dependencies (if needed)
+pip install basicsr==1.3.4.9 timm einops opencv-python-headless
+
+========================================
+3. Download Pretrained Model
+========================================
+
+The pretrained model is provided via:
+model_zoo/33_HAT_FFL/33_HAT_FFL.txt
+
+Download the model and place it in:
+model_zoo/33_HAT_FFL/
+
+Expected file:
+model_zoo/33_HAT_FFL/net_g_50000.pth
+
+========================================
+4. Dataset Structure
+========================================
+
+Input directory should contain LR images in PNG format.
+
+Example:
+input_dir/
+ ├── 0901x4.png
+ ├── 0902x4.png
+ ├── ...
+
+Output directory will contain reconstructed HR images:
+
+output_dir/
+ ├── 0901x4.png
+ ├── 0902x4.png
+ ├── ...
+
+========================================
+5. Run Inference
+========================================
+
+CUDA_VISIBLE_DEVICES=0 python test.py \
+--test_dir [path_to_input_LR_images] \
+--save_dir [path_to_output_directory] \
+--model_id 33
+
+========================================
+6. Evaluation (Optional)
+========================================
+
+If ground truth HR images are available:
+
+python eval.py \
+--output_folder [path_to_output_directory] \
+--target_folder [path_to_GT_HR_images] \
+--metrics_save_path ./IQA_results \
+--gpu_ids 0
