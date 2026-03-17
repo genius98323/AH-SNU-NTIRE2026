@@ -9,7 +9,8 @@ opencv-python
 einops
 lmdb
 numpy<=1.23.5
-opencv-python
+basicsr==1.3.4.9
+opencv-python-headless
 pyyaml
 scikit-learn
 scipy
