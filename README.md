@@ -135,3 +135,6 @@ Code repositories and accompanying technical report PDFs for each edition:
 ## License and Acknowledgement
 
 This code repository is release under [MIT License](LICENSE). 
+
+git clone https://github.com/XPixelGroup/HAT.git
+pip install -e HAT
