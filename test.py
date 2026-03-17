@@ -12,36 +12,23 @@ from utils import utils_image as util
 
 
 def select_model(args, device):
+    # Model ID is assigned according to the order of the submissions.
+    # Different networks are trained with input range of either [0,1] or [0,255]. The range is determined manually.
     model_id = args.model_id
-
-    if model_id == 33:
-        from models.33_HAT_FFL.hat_ffl_model import Model
-
+    if model_id == 0:
+        # DAT baseline, ICCV 2023
+        from models.team00_DAT import main as DAT
+        name = f"{model_id:02}_DAT_baseline"
+        model_path = os.path.join('model_zoo', 'team00_dat.pth')
+        model_func = DAT
+    elif model_id == 33:
+        from models.33_HAT_FFL.io import model_func
         name = "33_HAT_FFL"
-        model_path = os.path.join('model_zoo', '33_HAT_FFL', 'net_g_50000.pth')
-
-        def model_func(model_dir, input_path, output_path, device):
-            import glob, cv2
-            model = Model(model_dir, device)
-
-            paths = sorted(glob.glob(os.path.join(input_path, '*')))
-
-            for p in paths:
-                img = cv2.imread(p)
-                img = cv2.cvtColor(img, cv2.COLOR_BGR2RGB)
-
-                out = model.process(img)
-
-                out = cv2.cvtColor(out, cv2.COLOR_RGB2BGR)
-
-                name = os.path.basename(p)
-                cv2.imwrite(os.path.join(output_path, name), out)
-
-        return model_func, model_path, name
-
+        model_path = os.path.join('model_zoo', name, 'net_g_50000.pth')
     else:
-        raise NotImplementedError(f"Model {model_id} not implemented")
+        raise NotImplementedError(f"Model {model_id} is not implemented.")
 
+    return model_func, model_path, name
 
 def run(model_func, model_name, model_path, device, args, mode="test"):
     # --------------------------------
