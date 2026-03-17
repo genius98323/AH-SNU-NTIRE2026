@@ -1,3 +1,6 @@
+import torchvision.transforms.functional as F
+import sys
+sys.modules['torchvision.transforms.functional_tensor'] = F
 import torch
 import numpy as np
 from hat.archs.hat_arch import HAT
